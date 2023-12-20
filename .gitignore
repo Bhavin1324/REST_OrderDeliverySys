@@ -5,3 +5,5 @@ style.compiled.css
 .env
 *.env
 execute.bat
+payara-micro-5.194.jar
+mysql-connector-java-8.0.28.jar
