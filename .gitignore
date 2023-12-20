@@ -1,0 +1,7 @@
+target/
+artifact/
+/Microservices/artifact
+style.compiled.css
+.env
+*.env
+execute.bat
