@@ -368,6 +368,8 @@ public class ManagementBean implements ManagementBeanLocal {
             dp.setId(Utils.getUUID());
             String username = data.getString("username");
             Users user = (Users) em.createNamedQuery("Users.findByUsername").setParameter("username", username).getSingleResult();
+            double credit = (double) data.getInt("credits");
+            user.setCredits(credit);
             dp.setUsername(user);
             dp.setAdhaarNumber(new BigInteger(data.getString("aadharNumber")));
             Outlets outlet = em.find(Outlets.class, data.getString("outletId"));
@@ -420,6 +422,8 @@ public class ManagementBean implements ManagementBeanLocal {
 
             Users user = (Users) em.createNamedQuery("Users.findByUsername").setParameter("username", username).getSingleResult();
             user.setName(data.getString("name"));
+            double credit = (double) data.getInt("credits");
+            user.setCredits(credit);
             user.setPhoneNo(new BigInteger(data.getString("phone_no")));
             em.merge(user);
 
