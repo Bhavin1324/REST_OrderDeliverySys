@@ -136,18 +136,7 @@ public class ManagementBean implements ManagementBeanLocal {
         }
     }
 
-    @Override
-    public Collection<Items> getAllItems() {
-        Collection<Items> allItems = new ArrayList<>();
-        try {
-            allItems = em.createNamedQuery("Items.findAll").getResultList();
-        } catch (Exception ex) {
-            System.out.println("Exception occured in GetAllItems");
-            ex.printStackTrace();
-            return allItems;
-        }
-        return allItems;
-    }
+
 
     @Override
     public Items getItemById(String itemId) {

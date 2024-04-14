@@ -87,10 +87,11 @@ function OrderItem(props: IOrderItemProps) {
       outletId: localStorage.getItem("outlet"),
       userId: localStorage.getItem("user"),
       paymentMethod: data.paymentType,
+      addressId: props.user.address[0].id
     };
 
     // Checking for address conditions
-    if (props.user.address.length === 0) {
+    /*if (props.user.address.length === 0) {
       addAddressRequest.setPayload({
         ...addressPayload,
         user_id: props.user.userid,
@@ -116,7 +117,7 @@ function OrderItem(props: IOrderItemProps) {
           console.log(ex);
           return;
         });
-    }
+    }*/
 
     // Placing order api request
     placeCustomerOrder.setPayload(orderPayload);
@@ -134,6 +135,7 @@ function OrderItem(props: IOrderItemProps) {
             timer: 1500,
           });
           dispatch(setProgress(100));
+          navigate(`/${NavigateToRoute.ORDERED_FOODS}`);
         } else {
           Swal.fire({
             position: "center",
@@ -158,7 +160,7 @@ function OrderItem(props: IOrderItemProps) {
     dispatch(closeModal());
     dispatch(clearCart());
     localStorage.setItem("cart", JSON.stringify([]));
-    navigate(`/${NavigateToRoute.ORDERED_FOODS}`);
+   
   };
 
   return (

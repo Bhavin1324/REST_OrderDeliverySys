@@ -30,8 +30,6 @@ public interface ManagementBeanLocal {
     
     public Items getItemById(String itemId);
 
-    public Collection<Items> getAllItems();
-
     public PHResponseType addItemCategory(JsonObject data);
 
     public PHResponseType deleteItemCategory(String id);

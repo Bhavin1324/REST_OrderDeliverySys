@@ -5,6 +5,7 @@
 package EJB;
 
 import client.IClientPayment;
+import entities.AddressMaster;
 import entities.Items;
 import entities.OrderLine;
 import entities.OrderMaster;
@@ -54,11 +55,14 @@ public class BillBean implements BillBeanLocal {
             OrderMaster order = new OrderMaster();
             
             order.setId(Utils.getUUID());
-
+            AddressMaster address = new AddressMaster();
+            address.setId(data.getString("addressId"));
+            order.setAddressId(address);
             order.setOrderStatus(OrderStatus.PREPARING.toString());
 
             order.setPaymentMethod(data.getString("paymentMethod"));
             order.setDeliveryCharge(25d);
+           
 
             order.setOrderDate(new Date());
             Users user = (Users) em.createNamedQuery("Users.findById").setParameter("id", data.getString("userId")).getSingleResult();
@@ -67,7 +71,7 @@ public class BillBean implements BillBeanLocal {
             Outlets outlet = (Outlets) em.createNamedQuery("Outlets.findById").setParameter("id", data.getString("outletId")).getSingleResult();
             order.setOutletId(outlet);
             em.persist(order);
-
+            em.flush();
 //            DecimalFormat decfor = new DecimalFormat("0.00");
             for (int i = 0; i < jsonarr.size(); i++) {
                 OrderLine lineItem = new OrderLine();
@@ -76,7 +80,8 @@ public class BillBean implements BillBeanLocal {
 
                 lineItem.setId(Utils.getUUID());
                 lineItem.setQuantity(quantity);
-                Items item = em.find(Items.class, object.getString("itemId"));
+                Items item = new Items();
+                item.setId(object.getString("itemId"));
                 lineItem.setItemId(item);
 //                double tax = Math.round(item.getTaxSlabId().getPercentage() / 100);
 //                Double taxVal = Double.valueOf(String.format(".2f", tax));
@@ -86,8 +91,9 @@ public class BillBean implements BillBeanLocal {
 //                itemTotal += item.getPrice() * q;
 //                itemTotal += tax;
                 lineItem.setOrderId(order);
-
                 em.persist(lineItem);
+               em.flush();
+              
 
             }
             itemTotal = Double.parseDouble(data.getString("amount"));
@@ -99,12 +105,16 @@ public class BillBean implements BillBeanLocal {
             if (phr.getStatus() != 200) {
                 order.setOrderStatus(OrderStatus.CANCELLED.toString());
             } else {
+               
                 Users updateUserCreadits = order.getUserId();
+                em.refresh(updateUserCreadits);
                 updatedCredits += updateUserCreadits.getCredits() - itemTotal;
                 updateUserCreadits.setCredits(updatedCredits);
                 phr.setMessage(updatedCredits.toString());
                 em.merge(updateUserCreadits);
                 em.merge(order);
+                em.flush();
+                
             }
             return phr;
         } catch (Exception ex) {

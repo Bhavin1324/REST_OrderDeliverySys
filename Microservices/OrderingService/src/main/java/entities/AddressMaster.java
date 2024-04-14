@@ -6,6 +6,8 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.Collection;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +17,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -47,6 +50,8 @@ public class AddressMaster implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne
     private Users userId;
+    @OneToMany(mappedBy = "addressId")
+    private Collection<OrderMaster> orderMasterCollection;
 
     public AddressMaster() {
     }
@@ -87,6 +92,15 @@ public class AddressMaster implements Serializable {
         this.userId = userId;
     }
 
+    @JsonbTransient
+    public Collection<OrderMaster> getOrderMasterCollection() {
+        return orderMasterCollection;
+    }
+
+    public void setOrderMasterCollection(Collection<OrderMaster> orderMasterCollection) {
+        this.orderMasterCollection = orderMasterCollection;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -111,5 +125,5 @@ public class AddressMaster implements Serializable {
     public String toString() {
         return "entities.AddressMaster[ id=" + id + " ]";
     }
-    
+
 }

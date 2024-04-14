@@ -7,7 +7,7 @@ import { IItem } from "../../types/interfaces";
 function FoodsHome() {
   const [foodItems, setFoodItems] = useState<IItem[]>([]);
   const { MakeHttpRequest } = useFetch<IItem[]>(
-    import.meta.env.VITE_MANAGEMENT_SERVICE_URI + ApiEndpoints.GET_ALL_ITEMS
+    import.meta.env.VITE_ORDER_SERVICE_URI + ApiEndpoints.GET_ALL_ITEMS_ADMIN
   );
   useEffect(() => {
     MakeHttpRequest()

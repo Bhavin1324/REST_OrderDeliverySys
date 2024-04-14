@@ -67,13 +67,6 @@ public class ManagementService {
     }
 
     @GET
-    @Path("/getAllItems")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Collection<Items> getAllItems() {
-        return adminBean.getAllItems();
-    }
-
-    @GET
     @Path("/getItemById/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Items getItemById(@PathParam("id") String id) {

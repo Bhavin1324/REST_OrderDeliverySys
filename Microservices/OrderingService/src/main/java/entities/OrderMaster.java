@@ -77,6 +77,10 @@ public class OrderMaster implements Serializable {
     @OneToMany(mappedBy = "orderId")
     private Collection<OrderLine> orderLineCollection;
 
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    @ManyToOne
+    private AddressMaster addressId;
+
     public OrderMaster() {
     }
 
@@ -171,6 +175,14 @@ public class OrderMaster implements Serializable {
 
     public void setOrderLineCollection(Collection<OrderLine> orderLineCollection) {
         this.orderLineCollection = orderLineCollection;
+    }
+
+    public AddressMaster getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(AddressMaster addressId) {
+        this.addressId = addressId;
     }
 
     @Override

@@ -11,6 +11,7 @@ import entities.OrderMaster;
 import entities.Outlets;
 import entities.Pincodes;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -42,17 +43,19 @@ public class OrderBean implements OrderBeanLocal {
         Collection<Items> items = em.createNamedQuery("Items.findAll").getResultList();
         return items;
     }
-
+  
     @Override
     public String getOrderHistory(String userId, String status) {
 //        Users user = (Users) em.find(Users.class,userId);
         JSONArray orderHistory = new JSONArray();
+       
         try {
             Collection<OrderMaster> orders = em.createNamedQuery("OrderMaster.findByCustomerId").setParameter("userid", userId).setParameter("status", status).getResultList();
+        
             if (orders.size() > 0) {
                 for (OrderMaster order : orders) {
                     em.refresh(order);
-                    Collection<OrderLine> orderLineItems = order.getOrderLineCollection();
+                    Collection<OrderLine> orderLineItems =(Collection<OrderLine>) em.createNamedQuery("OrderLine.findByOrderId").setParameter("orderId", order.getId()).getResultList();
                     JSONArray ordersline = new JSONArray();
                     for (OrderLine ol : orderLineItems) {
                         em.refresh(ol);
