@@ -145,6 +145,8 @@ export interface ICustomerOrder {
   paymentMethod: PaymentMethod;
   userId: string;
   outletId: string;
+  addressId?: string;
+  address?: ICustomerAddress;
 }
 export interface ICartItem {
   id: string;

@@ -45,7 +45,7 @@ const ItemManager = () => {
     "POST"
   );
   const DisplayHook = useFetch(
-    import.meta.env.VITE_MANAGEMENT_SERVICE_URI +
+    import.meta.env.VITE_ORDER_SERVICE_URI +
       ApiEndpoints.GET_ALL_ITEMS_ADMIN,
     "GET"
   );

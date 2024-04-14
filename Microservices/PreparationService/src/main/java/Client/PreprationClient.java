@@ -16,7 +16,7 @@ import utilities.GenerateToken;
  *
  * @author Bhatt Jaimin
  */
-@RegisterRestClient(baseUri = "http://localhost:8088/DeliveryService/rest/")
+@RegisterRestClient(baseUri = "http://localhost:8080/DeliveryService/rest/")
 @Path("/delivery")
 public interface PreprationClient {
 
